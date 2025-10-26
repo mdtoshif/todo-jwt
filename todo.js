@@ -14,16 +14,24 @@ function user_data(user_detail){
             users = JSON.parse(data);
         }
 
-        const findExistUser = users.find((u)=>{
-            if(u.username === user_detail.username && u.password === user_detail.password) {
-                return false;
-            } else {
-                return true;
-                    } 
-             })
+        let founduser = null ;
+        for (let i=0;i<users.length;i++){
+        if (users[i].username === user_detail.username && users[i].password === user_detail.password) {
+            founduser = false;
+        } else {
+            founduser = true;
+        }
+        }
 
+        // const founduser = users.find((u)=>{
+        //     if(u.username === user_detail.username && u.password === user_detail.password) {
+        //         return false;
+        //     } else {
+        //         return null;
+        //             } 
+        //      })
 
-        if(findExistUser) {
+        if(founduser) {
                 users.push(user_detail);
                 fs.writeFile('./userdata.json',JSON.stringify(users,null,2),(err)=>{
                     if(err) {
@@ -50,6 +58,7 @@ app.post('/signup',(req,res)=>{
         username : username ,
         password : password
     }
+    console.log(user_detail)
     // Adding user in userdata.jsom
                                                             // user_data(user_detail).then(()=>{
                                                             //         res.json({
@@ -62,6 +71,7 @@ app.post('/signup',(req,res)=>{
              
                                                             // })
     let check = user_data(user_detail);
+    console.log("After : ",check)
 
     console.log("Check value : ",check)
     if(check) {
